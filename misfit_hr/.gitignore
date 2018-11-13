@@ -1,0 +1,4 @@
+.idea
+vcs.xml
+*.cnf
+__pycache__
