@@ -8,8 +8,10 @@ from django.template import RequestContext
 from django.contrib import auth
 import urllib.request
 import re
-
+from . import models
 
 def index(request):
     print("here")
-    return render(request, 'index.html', {})
+    userForm = models.UserForm()
+
+    return render(request, 'index.html', {'loginForm': userForm})

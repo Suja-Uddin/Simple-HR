@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.forms import ModelForm
 
 class User(models.Model):
     user_types = (
@@ -15,3 +15,8 @@ class Request(models.Model):
     details = models.CharField(max_length=255)
     requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name= '%(class)s_requester_id')
     processor = models.ForeignKey(User, on_delete=models.SET_NULL, blank = True, null=True, related_name= '%(class)s_request_processor_id')
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'email']

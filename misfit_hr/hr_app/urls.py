@@ -18,6 +18,8 @@ from django.urls import include, path
 
 from . import views
 
+app_name = 'hr_app'
+
 urlpatterns = [
-    path('', views.index)
+    path('', views.index, name = 'index')
 ]
