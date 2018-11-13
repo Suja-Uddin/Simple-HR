@@ -21,5 +21,6 @@ from . import views
 app_name = 'hr_app'
 
 urlpatterns = [
-    path('', views.index, name = 'index')
+    path('', views.login, name = 'login'),
+    path('requests', views.request, name = 'request')
 ]

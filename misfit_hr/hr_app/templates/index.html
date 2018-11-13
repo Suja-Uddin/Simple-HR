@@ -17,36 +17,12 @@
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-      		<a class="navbar-brand" href="{%url 'hr:index'%}"><font color='GreenYellow'>MISFIT HR</font></a>
+      		<a class="navbar-brand" href="{%url 'hr:login'%}"><font color='GreenYellow'>MISFIT HR</font></a>
     	</div>
 	</div>
 </nav>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-default">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <form action="{%url 'hr_app:index'%}" method="POST" style="margin-top: 50px; margin-bottom: 50px">
-                 {% csrf_token %}
-                  {% for field in loginForm %}
-                      <div class="form-group" >
-                        {% bootstrap_field field %}
-                              <!--{% for error  in field.errors %}
-                               <!--   {{error}}
-                              {% endfor %} -->
-                        </div>
-                  {% endfor %}
-                <div class="form-group" style="width: 50%;">
-                <button name="loginButton" id="loginButton" class="btn btn-primary btn-block">Log In</button>
-                </div>
-            </form>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-</body>
-<script>
+{% block body_content %} {% endblock %}
 
-</script>
+</body>
+{% block jquery %} {% endblock %}
 </html>

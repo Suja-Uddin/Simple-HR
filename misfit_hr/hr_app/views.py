@@ -10,13 +10,14 @@ import urllib.request
 import re
 from . import models
 
-def index(request):
-    print("here")
+def login(request):
     if request.method == 'POST':
         userForm = models.UserForm(request.POST)
-        # if form.is_valid():
-        #     return
+        if userForm.is_valid():
+            return HttpResponseRedirect('/requests')
     else:
         userForm = models.UserForm()
+    return render(request, 'login.html', {'loginForm': userForm})
 
-    return render(request, 'index.html', {'loginForm': userForm})
+def request(request):
+    return render(request, 'index.html', {})
