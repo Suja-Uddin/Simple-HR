@@ -5,13 +5,13 @@ from django.utils.translation import gettext as _
 
 class User(models.Model):
     user_types = (
-        (1, 'NORMAL'),
-        (2, 'HR'),
-        (3, 'MANAGER')
+        ('1', 'NORMAL'),
+        ('2', 'HR'),
+        ('3', 'MANAGER')
     )
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=50)
-    type = models.CharField(max_length=100, choices=user_types, default= 1)
+    type = models.CharField(max_length=100, choices=user_types, default= '1')
 
 class Request(models.Model):
     details = models.CharField(max_length=255)
@@ -25,6 +25,7 @@ class UserForm(ModelForm):
     def clean_email(self):
         print("email cleaning")
         email = self.cleaned_data['email']
-        if email[email.index('@')+1:] is not 'misfit.tech':
+        if email[email.index('@')+1:] != 'misfit.tech':
+            print(email[email.index('@')+1:])
             raise ValidationError(_('Not a valid MISFIT email'))
         return email

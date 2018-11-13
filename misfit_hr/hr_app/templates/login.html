@@ -7,19 +7,24 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <form action="{%url 'hr_app:login'%}" method="POST" style="margin-top: 50px; margin-bottom: 50px">
-                 {% csrf_token %}
-                  {% for field in loginForm %}
-                      <div class="form-group" >
-                        {% bootstrap_field field %}
-                              <!--{% for error  in field.errors %}
-                               <!--   {{error}}
-                              {% endfor %} -->
-                        </div>
-                  {% endfor %}
-                <div class="form-group" style="width: 50%;">
-                <button name="loginButton" id="loginButton" class="btn btn-primary btn-block">Log In</button>
-                </div>
-            </form>
+                    {% csrf_token %}
+                    {% if user_not_found %}
+                    <div class="alert alert-danger">
+                      Invalid Login Credential !
+                    </div>
+                    {% endif %}
+                      {% for field in loginForm %}
+                          <div class="form-group" >
+                            {% bootstrap_field field %}
+                                  <!--{% for error  in field.errors %}
+                                   <!--   {{error}}
+                                  {% endfor %} -->
+                            </div>
+                      {% endfor %}
+                    <div class="form-group" style="width: 50%;">
+                    <button name="loginButton" id="loginButton" class="btn btn-primary btn-block">Log In</button>
+                    </div>
+                </form>
             </div>
         </div>
         </div>

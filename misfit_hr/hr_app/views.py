@@ -8,15 +8,24 @@ from django.template import RequestContext
 from django.contrib import auth
 import urllib.request
 import re
-from . import models
+from .models import User, Request, UserForm
 
 def login(request):
+    data = {}
     if request.method == 'POST':
-        userForm = models.UserForm(request.POST)
+        print("post method")
+        userForm = UserForm(request.POST)
         if userForm.is_valid():
-            return HttpResponseRedirect('/requests')
+            print(request.POST['name'])
+            user = User.objects.filter(name=request.POST['name']).first()
+            print(user)
+            if user:
+                return HttpResponseRedirect('/requests')
+            data['user_not_found'] = True
     else:
-        userForm = models.UserForm()
+        userForm = UserForm()
+    data['loginForm'] = userForm
+    print(data)
     return render(request, 'login.html', {'loginForm': userForm})
 
 def request(request):
