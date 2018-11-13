@@ -1,4 +1,5 @@
 .idea
 vcs.xml
+db.sqlite3
 *.cnf
 __pycache__
