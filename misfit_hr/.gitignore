@@ -2,3 +2,4 @@
 vcs.xml
 *.cnf
 __pycache__
+hr_app/migrations/
