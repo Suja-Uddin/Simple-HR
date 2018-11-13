@@ -1,5 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 class User(models.Model):
     user_types = (
@@ -20,3 +22,9 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['name', 'email']
+    def clean_email(self):
+        print("email cleaning")
+        email = self.cleaned_data['email']
+        if email[email.index('@')+1:] is not 'misfit.tech':
+            raise ValidationError(_('Not a valid MISFIT email'))
+        return email

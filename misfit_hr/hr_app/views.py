@@ -12,6 +12,11 @@ from . import models
 
 def index(request):
     print("here")
-    userForm = models.UserForm()
+    if request.method == 'POST':
+        userForm = models.UserForm(request.POST)
+        # if form.is_valid():
+        #     return
+    else:
+        userForm = models.UserForm()
 
     return render(request, 'index.html', {'loginForm': userForm})
