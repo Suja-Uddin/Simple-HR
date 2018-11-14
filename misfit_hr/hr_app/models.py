@@ -17,14 +17,14 @@ class User(models.Model):
 
 class Request(models.Model):
     statuses = (
-        ('Open', 'Open'),
-        ('HR Reviewed', 'HR Reviewed'),
-        ('Processed', 'Processed')
+        ('1', 'Open'),
+        ('2', 'HR Reviewed'),
+        ('3', 'Processed')
     )
     details = models.CharField(max_length=255)
     requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name= '%(class)s_requester_id')
     processor = models.ForeignKey(User, on_delete=models.SET_NULL, blank = True, null=True, related_name= '%(class)s_request_processor_id')
-    status = models.CharField(max_length=20, choices=statuses, default='Open')
+    status = models.CharField(max_length=20, choices=statuses, default='1')
 
 
 class UserForm(ModelForm):

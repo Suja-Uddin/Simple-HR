@@ -1,5 +1,92 @@
 {% extends 'index.html' %}
 {% load bootstrap3 %}
 {% block body_content %}
-    requests
+    {% if user.type == '1' %}
+    <a href="#createRequestModal" data-toggle="modal" type="button" class="btn btn-success pull-right" style="margin-right: 20px">Create Request</a>
+    {% endif %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+            {% if user.type == '2' or user.type == '3' %}
+          <th scope="col"> Requested By </th>
+            {% endif %}
+          <th scope="col"> Details</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requests %}
+
+            <tr>
+            <th scope="row"> {{ forloop.counter }} </th>
+                {% if user.type == '2' or user.type == '3' %}
+            <td>
+                {{ request.requested_user.name }} <br>
+                <a href="javascript:;"> {{ request.requested_user.email }} </a>
+            </td>
+                {% endif %}
+            <td> {{ request.details }} </td>
+            <td> {{ request.status }} </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="modal fade" id="createRequestModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Create Request</h3>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    <div class="form-group">
+                        <label for="requestDetails"> Request Details</label>
+                        <textarea class="form-control" name="requestDetails" id="requestDetails" rows="3" required></textarea>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default">Close</button>
+                    <a type="button" id="request_submit_button" name="request_submit_button" class="btn btn-primary">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block jquery %}
+    <script>
+    $(document).ready(function() {
+        $('#request_submit_button').addClass('disabled');
+        $('#requestDetails').on('input propertychange', function() {
+            if (this.value.length) {
+                $('#request_submit_button').removeClass('disabled');
+            } else {
+                $('#request_submit_button').addClass('disabled');
+            }
+        });
+
+        $("#request_submit_button").click(function(event){
+            console.log("submitted request", $('#requestDetails').val());
+            $.ajax({
+              type:"POST",
+              url:"{%url 'hr:request' %}",
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                request_details: $('#requestDetails').val()
+              },
+              success : function(json) {
+                if (json.request_saved)
+                {
+                    console.log("success");
+                }
+                else{
+                    console.log("failed");
+                }
+              },
+            });
+        });
+    });
+    </script>
 {% endblock %}
