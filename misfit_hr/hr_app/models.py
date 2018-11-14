@@ -14,16 +14,18 @@ class User(models.Model):
     type = models.CharField(max_length=100, choices=user_types, default= '1')
     is_logged_in = models.BooleanField(default=False)
 
+
 class Request(models.Model):
     statuses = (
-        ('1', 'Open'),
-        ('2', 'HR Reviewed'),
-        ('3', 'Processed')
+        ('Open', 'Open'),
+        ('HR Reviewed', 'HR Reviewed'),
+        ('Processed', 'Processed')
     )
     details = models.CharField(max_length=255)
     requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name= '%(class)s_requester_id')
     processor = models.ForeignKey(User, on_delete=models.SET_NULL, blank = True, null=True, related_name= '%(class)s_request_processor_id')
-    status = models.CharField(max_length=20, choices=statuses, default='1')
+    status = models.CharField(max_length=20, choices=statuses, default='Open')
+
 
 class UserForm(ModelForm):
     class Meta:
