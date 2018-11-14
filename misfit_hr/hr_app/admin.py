@@ -5,4 +5,4 @@ from .models import User, Request
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    exclude = ('is_looged_in',)
+    exclude = ('is_logged_in',)
