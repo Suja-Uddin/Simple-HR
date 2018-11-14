@@ -78,3 +78,20 @@ def logout(request):
     user.save()
     del request.session['user']
     return HttpResponseRedirect('/')
+
+def updateRequest(request, request_id):
+    if 'user' in request.session:
+        req = Request.objects.get(id=request_id)
+        if request.method == 'POST':
+            if 'requestDetails' in request.POST:
+                req.details = request.POST['requestDetails']
+            if 'requestStatus' in request.POST:
+                req.status = request.POST['requestStatus']
+            req.save()
+            return HttpResponseRedirect('/requests')
+        data = {}
+        user = User.objects.get(id = request.session['user'])
+        data['user'] = user
+        data['req'] = req
+        return render(request, 'request-update.html', data)
+    return  HttpResponseRedirect('/')

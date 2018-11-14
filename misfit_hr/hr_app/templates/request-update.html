@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% load bootstrap3 %}
+{% block body_content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form action="{%url 'hr:updateRequest' req.id %}" method="POST" style="margin-top: 50px; margin-bottom: 50px">
+
+                    {% csrf_token %}
+                    {% if user.type == '1' %}
+                        <div class="form-group">
+                            <label for="requestDetails">Details</label>
+                            <textarea name="requestDetails" class="form-control" rows="3">{{ req.details }}</textarea>
+                        </div>
+                    {% else %}
+                        <div class="form-group">
+                            <label for="details">Details</label>
+                            <span name="details" class="form-control">{{ req.details }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="requestStatus">Status</label>
+                            <select name="requestStatus" class="form-control">
+                                {% if user.type == '2' %}
+                                    <option value="1"{% if req.status == '1' %} selected="selected" {% endif %}
+                                    >Open</option>
+                                {% endif %}
+                                    <option value="2" {% if req.status == '2' %} selected="selected" {% endif %}
+                                    >HR Reviewed</option>
+                                    <option value="3" {% if req.status == '3' %} selected="selected" {% endif %}
+                                    >Processed</option>
+                            </select>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-success">
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

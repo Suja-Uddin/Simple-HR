@@ -23,5 +23,6 @@ app_name = 'hr_app'
 urlpatterns = [
     path('', views.login, name = 'login'),
     path('requests', views.request, name = 'request'),
+    path('request/update/<int:request_id>/', views.updateRequest, name = 'updateRequest'),
     path('logout', views.logout, name = 'logout')
 ]
