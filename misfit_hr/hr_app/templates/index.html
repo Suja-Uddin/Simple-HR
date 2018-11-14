@@ -16,9 +16,13 @@
 <body>
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-		<div class="navbar-header">
+		<div class="navbar-header" style="width: 100%">
       		<a class="navbar-brand" href="{%url 'hr:login'%}"><font color='GreenYellow'>MISFIT HR</font></a>
-    	</div>
+            {% if user.is_logged_in %}
+                {{ user.name }}
+            <a class="navbar-brand pull-right" href="{%url 'hr:logout'%}"><font color='GreenYellow'>Logout</font></a>
+            {% endif %}
+        </div>
 	</div>
 </nav>
 {% block body_content %} {% endblock %}

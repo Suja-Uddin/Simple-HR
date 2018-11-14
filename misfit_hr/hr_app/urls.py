@@ -22,5 +22,6 @@ app_name = 'hr_app'
 
 urlpatterns = [
     path('', views.login, name = 'login'),
-    path('requests', views.request, name = 'request')
+    path('requests', views.request, name = 'request'),
+    path('logout', views.logout, name = 'logout')
 ]
