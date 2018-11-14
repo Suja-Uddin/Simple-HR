@@ -46,7 +46,7 @@
                             Edit
                         </a>
                         {% endif %}
-                        {% if user.type == '2' %}
+                        {% if user.type == '2' and request.status != '3' %}
                         <a href="{% url 'hr:updateRequest' request.id %}" class="btn btn-sm">
                             Edit
                         </a>
