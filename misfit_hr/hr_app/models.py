@@ -13,9 +13,11 @@ class User(models.Model):
     email = models.EmailField(max_length=50)
     type = models.CharField(max_length=100, choices=user_types, default= '1')
     is_logged_in = models.BooleanField(default=False)
+    image = models.BinaryField(blank=True)
 
     def __str__(self):
         return self.name + ' - ' + self.email
+
 
 class Request(models.Model):
     statuses = (
@@ -33,10 +35,9 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['name', 'email']
+
     def clean_email(self):
-        print("email cleaning")
         email = self.cleaned_data['email']
         if email[email.index('@')+1:] != 'misfit.tech':
-            print(email[email.index('@')+1:])
             raise ValidationError(_('Not a valid MISFIT email'))
         return email

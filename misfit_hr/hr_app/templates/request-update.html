@@ -5,18 +5,19 @@
     <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-default">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 text-center">
                 <a href="{% url 'hr:request' %}" class="btn btn-default btn-sm pull-left" style="margin: 5px">Back</a>
+                <strong style="margin-right: 60px;font-size: 25px;" class="text-center"> Update Request #{{ req.id }} </strong>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <form action="{%url 'hr:updateRequest' req.id %}" method="POST" style="margin-top: 50px; margin-bottom: 50px">
                     {% csrf_token %}
-                    {% if user.type == '1' %}
+                    {% if user.type == '1' and req.status != '3' %}
                         <div class="form-group">
                             <label for="requestDetails">Details</label>
-                            <textarea name="requestDetails" class="form-control" rows="3">{{ req.details }}</textarea>
+                            <textarea placeholder="Enter details up to 255 characters" name="requestDetails" class="form-control" rows="3">{{ req.details }}</textarea>
                         </div>
                     {% else %}
                         <div class="form-group">
@@ -25,7 +26,9 @@
                         </div>
                         <div class="form-group">
                             <label for="requestStatus">Status</label>
-                            <select name="requestStatus" class="form-control">
+                            <select name="requestStatus"
+                                    {% if req.status == '3' %} disabled="disabled" {% endif %}
+                                    class="form-control" >
                                 {% if user.type == '2' %}
                                     <option value="1"{% if req.status == '1' %} selected="selected" {% endif %}
                                     >Open</option>

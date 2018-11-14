@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import auth
 from django.urls import reverse
+from django.db.models import Q
 
 import re
 from .models import User, Request, UserForm
@@ -17,25 +18,32 @@ def login(request):
         return HttpResponseRedirect('/requests')
     data = {}
     if request.method == 'POST':
-        print("post method")
         userForm = UserForm(request.POST)
         if userForm.is_valid():
-            print(request.POST['name'])
-            # user = User.objects.filter(name=request.POST['name']).first()
-            try:
-                user = User.objects.get(name = request.POST['name'], email = request.POST['email'])
-            except User.DoesNotExist:
-                user = None
-            print(user)
-            if user:
-                user.is_logged_in = True
-                user.save()
-                request.session['user'] = user.id
-                return HttpResponseRedirect('/requests')
-            data['user_not_found'] = True
+            if "signupButton" in request.POST:
+                users = User.objects.get(Q(name=request.POST['name'])|Q(email=request.POST['email']))
+                if users:
+                    data['sign_up_failure'] = True
+                else:
+                    imageFile = request.FILES['myImage'].file.read()
+                    user = User(name=request.POST['name'], email=request.POST['email'], image=imageFile)
+                    user.save()
+                    data['sign_up_success'] = True
+            else:
+                try:
+                    user = User.objects.get(name = request.POST['name'], email = request.POST['email'])
+                except User.DoesNotExist:
+                    user = None
+                if user:
+                    user.is_logged_in = True
+                    user.save()
+                    request.session['user'] = user.id
+                    return HttpResponseRedirect('/requests')
+                data['user_not_found'] = True
     else:
         userForm = UserForm()
     data['loginForm'] = userForm
+    data['signupForm'] = UserForm()
     return render(request, 'login.html', data)
 
 
