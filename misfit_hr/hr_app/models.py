@@ -12,6 +12,7 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=50)
     type = models.CharField(max_length=100, choices=user_types, default= '1')
+    is_looged_in = models.BooleanField(default=False)
 
 class Request(models.Model):
     details = models.CharField(max_length=255)
