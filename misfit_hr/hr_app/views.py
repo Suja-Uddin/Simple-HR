@@ -13,6 +13,8 @@ from .models import User, Request, UserForm
 
 
 def login(request):
+    if 'user' in request.session:
+        return HttpResponseRedirect('/requests')
     data = {}
     if request.method == 'POST':
         print("post method")
