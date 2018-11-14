@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 
 class User(models.Model):
     user_types = (
-        ('1', 'NORMAL'),
+        ('1', 'EMPLOYEE'),
         ('2', 'HR'),
         ('3', 'MANAGER')
     )
@@ -14,6 +14,8 @@ class User(models.Model):
     type = models.CharField(max_length=100, choices=user_types, default= '1')
     is_logged_in = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name + ' - ' + self.email
 
 class Request(models.Model):
     statuses = (
