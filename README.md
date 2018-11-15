@@ -19,7 +19,7 @@ The next section describes how to run the application locally.
 ### Steps
 First, make sure that you have ***Python 3*** installed in your machine.
 
-Now, download the zip file of the source code or open your terminal and paste below command to clone it. 
+Now, either [download](https://github.com/Suja-Uddin/Simple-HR/archive/master.zip) the zip file of the source code or open your terminal and paste below command to clone it. 
 ```
 git clone https://github.com/Suja-Uddin/Simple-HR.git
 ```
