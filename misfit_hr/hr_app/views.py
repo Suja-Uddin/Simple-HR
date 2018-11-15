@@ -49,11 +49,9 @@ def login(request):
 
 def request(request):
     if 'user' in request.session:
-        print("session user: ", request.session['user'])
         data = {}
         user = User.objects.get(id=request.session['user'])
         if request.method == 'POST':
-            print("Creating request")
             req = Request(details=request.POST['request_details'], requester_id=user.id, status='1')
             req.save()
             return JsonResponse({'request_saved': True})
@@ -70,7 +68,6 @@ def request(request):
             requests[idx].requested_user = User.objects.get(id=req.requester.id)
             if req.processor:
                 requests[idx].processor_user = User.objects.get(id=req.processor.id)
-                print("for req:", req.id, req.processor_user)
         data['requests'] = requests
         return render(request, 'request.html', data)
     else:
@@ -84,19 +81,20 @@ def logout(request):
     del request.session['user']
     return HttpResponseRedirect('/')
 
+
 def updateRequest(request, request_id):
     if 'user' in request.session:
+        user = User.objects.get(id=request.session['user'])
         req = Request.objects.get(id=request_id)
         if request.method == 'POST':
             if 'requestDetails' in request.POST:
                 req.details = request.POST['requestDetails']
             if 'requestStatus' in request.POST:
                 req.status = request.POST['requestStatus']
+                if request.POST['requestStatus'] == '3':
+                    req.processor = user
             req.save()
             return HttpResponseRedirect('/requests')
-        data = {}
-        user = User.objects.get(id = request.session['user'])
-        data['user'] = user
-        data['req'] = req
+        data = {'user': user, 'req': req}
         return render(request, 'request-update.html', data)
-    return  HttpResponseRedirect('/')
+    return HttpResponseRedirect('/')
