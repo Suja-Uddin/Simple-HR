@@ -1,0 +1,6 @@
+[client]
+database = misfit_hr
+host = localhost
+user = root
+password = 123
+default-character-set = utf8
