@@ -1,4 +1,5 @@
 .idea
+workspace.xml
 vcs.xml
 *.cnf
 __pycache__
