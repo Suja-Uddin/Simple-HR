@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 
+
 class User(models.Model):
     user_types = (
         ('1', 'EMPLOYEE'),
@@ -15,8 +16,9 @@ class User(models.Model):
     is_logged_in = models.BooleanField(default=False)
     image = models.BinaryField(blank=True)
 
-    def __str__(self):
-        return self.name + ' - ' + self.email
+    def __str__(self):          # To show readable user list in admin
+        user_types = {'1': 'EMPLOYEE', '2': 'HR', '3': 'MANAGER'}
+        return self.name + ' - ' + self.email + ' (' + user_types[self.type] + ')'
 
 
 class Request(models.Model):
@@ -31,7 +33,7 @@ class Request(models.Model):
     status = models.CharField(max_length=20, choices=statuses, default='1')
 
 
-class UserForm(ModelForm):
+class UserForm(ModelForm):          # User login and register form
     class Meta:
         model = User
         fields = ['name', 'email']

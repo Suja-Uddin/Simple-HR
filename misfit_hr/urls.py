@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('admin', admin.site.urls),
-    path('', include('hr_app.urls', namespace='hr'))
+    path('admin', admin.site.urls),                         # Django admin for our use
+    path('', include('hr_app.urls', namespace='hr'))        # Our app's namespace
 ]
