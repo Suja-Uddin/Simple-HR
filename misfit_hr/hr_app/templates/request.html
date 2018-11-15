@@ -37,7 +37,10 @@
                         {% elif request.status == '2' %}
                         <span class="badge badge-info">HR reviewed</span>
                         {% else %}
-                        <span class="badge badge-success">Processed</span>
+                        <span class="badge badge-success">Processed</span> <br>
+                            {% if request.processor_user %}
+                            <small>by {{ request.processor_user.name }}</small>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td>

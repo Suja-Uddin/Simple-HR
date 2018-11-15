@@ -54,26 +54,23 @@ def request(request):
         user = User.objects.get(id=request.session['user'])
         if request.method == 'POST':
             print("Creating request")
-            req = Request(details = request.POST['request_details'], requester_id=user.id, status = '1')
+            req = Request(details=request.POST['request_details'], requester_id=user.id, status='1')
             req.save()
             return JsonResponse({'request_saved': True})
 
         data['user'] = user
         if user.type == '1':
-            requests = Request.objects.filter(requester_id=user.id)
+            requests = Request.objects.filter(requester=user)
         elif user.type == '2':
             requests = Request.objects.all()
         else:
             requests = Request.objects.filter(status='2')
         for idx, req in enumerate(requests):
-            print(idx, req)
-            requested_user = User.objects.get(id=req.requester_id)
-            if req.processor_id:
-                processor_user = User.objects.get(id=req.processor_id)
-                requests[idx].processor_user = processor_user
-            requests[idx].requested_user = requested_user
-            # requestList.append({})
-        print(requests)
+            print(idx, req.requester)
+            requests[idx].requested_user = User.objects.get(id=req.requester.id)
+            if req.processor:
+                requests[idx].processor_user = User.objects.get(id=req.processor.id)
+                print("for req:", req.id, req.processor_user)
         data['requests'] = requests
         return render(request, 'request.html', data)
     else:
