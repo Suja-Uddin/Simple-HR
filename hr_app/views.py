@@ -18,9 +18,10 @@ def login(request):
         return HttpResponseRedirect('/requests')
     data = {}
     if request.method == 'POST':
-        userForm = UserForm(request.POST)
-        if userForm.is_valid():
+        user_form = UserForm(request.POST)
+        if user_form.is_valid():
             if "signupButton" in request.POST:
+                user_form = UserForm()
                 try:
                     users = User.objects.get(Q(name=request.POST['name'])|Q(email=request.POST['email']))
                 except User.DoesNotExist:
@@ -44,13 +45,13 @@ def login(request):
                     return HttpResponseRedirect('/requests')
                 data['user_not_found'] = True
     else:
-        userForm = UserForm()
-    data['loginForm'] = userForm
+        user_form = UserForm()
+    data['loginForm'] = user_form
     data['signupForm'] = UserForm()
     return render(request, 'login.html', data)
 
 
-def request(request):
+def handle_request(request):
     if 'user' in request.session:
         data = {}
         user = User.objects.get(id=request.session['user'])
@@ -85,7 +86,7 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 
-def updateRequest(request, request_id):
+def update_request(request, request_id):
     if 'user' in request.session:
         user = User.objects.get(id=request.session['user'])
         req = Request.objects.get(id=request_id)
