@@ -2,5 +2,5 @@
 workspace.xml
 vcs.xml
 *.cnf
-__pycache__
+__pycache__/
 hr_app/migrations/
