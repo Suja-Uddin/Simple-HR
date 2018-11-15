@@ -21,8 +21,10 @@
 		<div class="navbar-header" style="width: 100%">
       		<a class="navbar-brand" href="{%url 'hr:login'%}"><font color='GreenYellow'>MISFIT HR</font></a>
             {% if user.is_logged_in %}
-                {{ user.name }}
-            <a class="navbar-brand pull-right" href="{%url 'hr:logout'%}"><font color='GreenYellow'>Logout</font></a>
+                <a class="navbar-brand pull-right" href="{%url 'hr:logout'%}"><font color='GreenYellow'>Logout</font></a>
+                <span class="navbar-brand pull-right">{{ user.name }} ({{ user.email }}) </span>
+            {% else %}
+                <a class="navbar-brand pull-right" href="/admin"><font color='GreenYellow'>Admin</font></a>
             {% endif %}
         </div>
 	</div>

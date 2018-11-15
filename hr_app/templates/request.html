@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% block body_content %}
     {% if user.type == '1' %}
-    <a href="#createRequestModal" data-toggle="modal" type="button" class="btn btn-success pull-right" style="margin-right: 110px; margin-bottom: 20px;">Create Request</a>
+        <a href="#createRequestModal" data-toggle="modal" type="button" class="btn btn-success pull-right" style="margin-right: 110px; margin-bottom: 20px;">Create Request</a>
     {% else %}
         <a href="#" id="downloadPDF" type="button" class="btn btn-success pull-right" style="margin-right: 110px; margin-bottom: 20px;">Download PDF</a>
     {% endif %}
