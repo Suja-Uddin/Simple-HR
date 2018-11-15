@@ -2,9 +2,11 @@
 {% load bootstrap3 %}
 {% block body_content %}
     {% if user.type == '1' %}
-    <a href="#createRequestModal" data-toggle="modal" type="button" class="btn btn-success pull-right" style="margin-right: 20px; margin-bottom: 20px;">Create Request</a>
+        <a href="#createRequestModal" data-toggle="modal" type="button" class="btn btn-success pull-right" style="margin-right: 110px; margin-bottom: 20px;">Create Request</a>
+    {% else %}
+        <a href="#" id="downloadPDF" type="button" class="btn btn-success pull-right" style="margin-right: 110px; margin-bottom: 20px;">Download PDF</a>
     {% endif %}
-    <div class="row">
+    <div class="row" id="requestContent">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="row">
@@ -27,7 +29,9 @@
                         {% if user.type == '2' or user.type == '3' %}
                     <td>
                         {{ request.requested_user.name }} <br>
-                        <a href="javascript:;"> {{ request.requested_user.email }} </a>
+                        <a href="javascript:;" style="text-decoration: none; cursor:default">
+                            {{ request.requested_user.email }}
+                        </a>
                     </td>
                         {% endif %}
                     <td>{{ request.details }}</td>
@@ -39,11 +43,11 @@
                         {% else %}
                         <span class="badge badge-success">Processed</span> <br>
                             {% if request.processor_user %}
-                            <small>by {{ request.processor_user.name }}</small>
+                            <small>by <strong>{{ request.processor_user.name }} </strong></small>
                             {% endif %}
                         {% endif %}
                     </td>
-                    <td>
+                    <td class="editRequest">
                         {% if user.type == '1' and request.status == '1'%}
                         <a href="{% url 'hr:updateRequest' request.id %}" class="btn btn-sm">
                             Edit
@@ -102,6 +106,19 @@
             } else {
                 $('#request_submit_button').addClass('disabled');
             }
+        });
+
+        $('#downloadPDF').click(function() {
+            var printContents = document.getElementById('requestContent').innerHTML;
+            var popupWin = window.open('', '_blank', 'width=1200,height=750');
+            popupWin.document.open();
+            popupWin.document.write("<html><head><title>my div</title>");
+            popupWin.document.write("<style>.editRequest{display: none;}</style>");
+
+            popupWin.document.write("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">");
+            popupWin.document.write(printContents);
+            popupWin.print();
+            popupWin.document.close();
         });
 
         $("#request_submit_button").click(function(event){
