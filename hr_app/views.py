@@ -22,11 +22,7 @@ def login(request):
         if user_form.is_valid():
             if "signupButton" in request.POST:
                 user_form = UserForm()
-                try:
-                    users = User.objects.get(Q(name=request.POST['name'])|Q(email=request.POST['email']))
-                except User.DoesNotExist:
-                    users = None
-                if users:
+                if User.objects.filter(Q(name=request.POST['name']) | Q(email=request.POST['email'])).count():
                     data['sign_up_failure'] = True
                 else:
                     image_file = request.FILES['myImage'].file.read()
