@@ -21,17 +21,20 @@ def login(request):
         userForm = UserForm(request.POST)
         if userForm.is_valid():
             if "signupButton" in request.POST:
-                users = User.objects.get(Q(name=request.POST['name'])|Q(email=request.POST['email']))
+                try:
+                    users = User.objects.get(Q(name=request.POST['name'])|Q(email=request.POST['email']))
+                except User.DoesNotExist:
+                    users = None
                 if users:
                     data['sign_up_failure'] = True
                 else:
-                    imageFile = request.FILES['myImage'].file.read()
-                    user = User(name=request.POST['name'], email=request.POST['email'], image=imageFile)
+                    image_file = request.FILES['myImage'].file.read()
+                    user = User(name=request.POST['name'], email=request.POST['email'], image=image_file)
                     user.save()
                     data['sign_up_success'] = True
             else:
                 try:
-                    user = User.objects.get(name = request.POST['name'], email = request.POST['email'])
+                    user = User.objects.get(name=request.POST['name'], email=request.POST['email'])
                 except User.DoesNotExist:
                     user = None
                 if user:
