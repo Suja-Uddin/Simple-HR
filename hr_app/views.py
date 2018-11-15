@@ -9,7 +9,7 @@ def login(request):                     # Login and Signup handler view.
     if 'user' in request.session:       # Authenticated user -> requests page
         return HttpResponseRedirect('/requests')
     data = {}
-    if request.method == 'POST':        # performs a login or signup
+    if request.method == 'POST':        # performing a login or signup
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             if "signupButton" in request.POST:  # signup request
