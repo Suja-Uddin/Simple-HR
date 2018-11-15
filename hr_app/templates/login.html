@@ -13,10 +13,11 @@
     {% endif %}
     <div class="row">
         <div class="col-md-4 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="height: 342px">
+            <h2 class="text-center">Log In</h2>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <form action="{%url 'hr_app:login'%}" method="POST" style="margin-top: 50px; margin-bottom: 50px">
+                    <form action="{%url 'hr_app:login'%}" method="POST" style="margin-top: 20px;">
                         {% csrf_token %}
                         {% if user_not_found %}
                         <div class="alert alert-danger">
@@ -41,9 +42,10 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
+            <h2 class="text-center">Sign Up</h2>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <form action="{%url 'hr_app:login' %}" enctype="multipart/form-data" method="POST" style="margin-top: 50px; margin-bottom: 50px">
+                    <form action="{%url 'hr_app:login' %}" enctype="multipart/form-data" method="POST" style="margin-top: 20px">
                         {% csrf_token %}
                             {% for field in loginForm %}
                               <div class="form-group" >
@@ -54,6 +56,7 @@
                                 </div>
                              {% endfor %}
                             <div class="form-group" >
+                                <label for="myImage">Upload your picture</label>
                                 <input type="file" id="myImage" name="myImage" accept="image/x-png,image/gif,image/jpeg" />
                             </div>
                             <div class="form-group">
