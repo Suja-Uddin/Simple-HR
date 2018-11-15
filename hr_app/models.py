@@ -36,9 +36,9 @@ class Request(models.Model):
 class UserForm(ModelForm):          # User login and register form
     class Meta:
         model = User
-        fields = ['name', 'email']
+        fields = ['name', 'email']  # Only include these fields from model
 
-    def clean_email(self):
+    def clean_email(self):          # Validate user email
         email = self.cleaned_data['email']
         if email[email.index('@')+1:] != 'misfit.tech':
             raise ValidationError(_('Not a valid MISFIT email'))
